@@ -23,4 +23,7 @@ data_clus <- data %>%
   mutate(cluster = data_eclust$cluster, 
          vote_numeric = (data_eclust$vote) %>% as_factor() %>% as.numeric())
 data_stats <- cluster.stats(data_dist, data_clus$vote_numeric, data_clus)
+data_vi <- data_stats$vi
+data_rand <- data_stats$corrected.rand
+
 ```
