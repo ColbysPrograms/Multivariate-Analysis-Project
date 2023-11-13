@@ -6,8 +6,10 @@ date: "2023-11-13"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+knitr::opts_chunk$set(root.dir = "")
+library(tidyverse)
+library(factoextra)
+library(fpc)
+library(NbClust)
+data <- read.csv("data.csv")
 ```
