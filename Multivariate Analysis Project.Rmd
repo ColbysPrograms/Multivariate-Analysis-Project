@@ -11,7 +11,10 @@ library(tidyverse)
 library(factoextra)
 library(fpc)
 library(NbClust)
+library(psych)
+library(GPArotation)
 data <- read.csv("data.csv")
+data[,4] <- as.numeric( sub(",", "", houseIncome, fixed = TRUE))
 ```
 
 ```{r}
@@ -26,4 +29,15 @@ data_stats <- cluster.stats(data_dist, data_clus$vote_numeric, data_clus$cluster
 data_vi <- data_stats$vi
 data_rand <- data_stats$corrected.rand
 table(data$State, data_eclust$cluster)
+```
+
+```{r}
+data_num <- data %>% select_if(is.numeric)
+numFactors <- fa.parallel(data_num, fm = "minres", fa = "fa")
+twoFactor <- fa(data_num, nfactors = 2, rotate = "oblimin", fm = "minres")
+print(twoFactor$loadings, cutoff = 0.3)
+fa.diagram(twoFactor)
+threeFactor <- fa(data_num, nfactors = 3, rotate = "oblimin", fm = "minres")
+print(threeFactor$loadings, cutoff = 0.3)
+fa.diagram(threeFactor)
 ```

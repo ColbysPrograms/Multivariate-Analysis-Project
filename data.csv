@@ -1,4 +1,4 @@
-State,Vote,Age,Household.Income....,Male....,Female....,WhiteTotalPerc,BlackTotalPerc,IndianTotalPerc,AsianTotalPerc,HawaiianTotalPerc,OtherTotalPerc,TwoOrMoreTotalPerc
+State,Vote,Age,HouseholdIncome,Male,Female,WhiteTotalPerc,BlackTotalPerc,IndianTotalPerc,AsianTotalPerc,HawaiianTotalPerc,OtherTotalPerc,TwoOrMoreTotalPerc
 Alabama,Republican,39.5,"51,734",0.483,0.517,0.674986,0.265945,0.005061,0.013878,0.000417,0.039712,0.024385
 Alaska,Republican,35.3,"75,463",0.517,0.483,0.633606,0.032421,0.14559,0.064165,0.014227,0.109992,0.093396
 Arizona,Democratic,38.5,"62,055",0.495,0.505,0.737727,0.045317,0.043353,0.033341,0.00204,0.138223,0.069639
