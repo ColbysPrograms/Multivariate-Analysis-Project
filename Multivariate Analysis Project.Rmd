@@ -14,7 +14,10 @@ library(NbClust)
 library(psych)
 library(GPArotation)
 data <- read.csv("data.csv")
+houseIncome <- data[,4]
 data[,4] <- as.numeric( sub(",", "", houseIncome, fixed = TRUE))
+row.names(data) <- data[,1]
+data <- data %>% select(-State)
 ```
 
 ```{r}
@@ -40,4 +43,15 @@ fa.diagram(twoFactor)
 threeFactor <- fa(data_num, nfactors = 3, rotate = "oblimin", fm = "minres")
 print(threeFactor$loadings, cutoff = 0.3)
 fa.diagram(threeFactor)
+```
+
+```{r}
+data_dist <- dist(data)
+data_fit <- cmdscale(data_dist, eig = TRUE, k = 2)
+x <- data_fit$points[,1]
+y <- data_fit$points[,2]
+
+plot(x, y, xlab = "Coordinate 1", ylab = "Coordinate 2",
+     main = "Multidimensional Scaling Results", type = "n")
+text(x, y, labels = row.names(data))
 ```
