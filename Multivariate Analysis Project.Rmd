@@ -13,11 +13,18 @@ library(fpc)
 library(NbClust)
 library(psych)
 library(GPArotation)
+library(MASS)
+library(HSAUR2)
+library(tidyquant)
+library(expm)
+library(vegan)
+library(ca)
+
 data <- read.csv("data.csv")
 houseIncome <- data[,4]
 data[,4] <- as.numeric( sub(",", "", houseIncome, fixed = TRUE))
 row.names(data) <- data[,1]
-data <- data %>% select(-State)
+data <- subset(data, select = -State)
 ```
 
 ```{r}
@@ -46,12 +53,39 @@ fa.diagram(threeFactor)
 ```
 
 ```{r}
-data_dist <- dist(data)
-data_fit <- cmdscale(data_dist, eig = TRUE, k = 2)
-x <- data_fit$points[,1]
-y <- data_fit$points[,2]
+# data_dist <- dist(data)
+# data_fit <- cmdscale(data_dist, eig = TRUE, k = 2)
+# x <- data_fit$points[,1]
+# y <- data_fit$points[,2]
+# 
+# plot(x, y, xlab = "Coordinate 1", ylab = "Coordinate 2",
+#      main = "Multidimensional Scaling Results", type = "n")
+# text(x, y, labels = row.names(data))
 
-plot(x, y, xlab = "Coordinate 1", ylab = "Coordinate 2",
-     main = "Multidimensional Scaling Results", type = "n")
-text(x, y, labels = row.names(data))
+
+data_MDS <- metaMDS(data[,2:11], distance = "gower")
+
+stressplot(data_MDS)
+
+data_MDS$stress
+
+data_2D_df <- data_MDS$points %>%
+  as_tibble(rownames = "States")
+colorVector <- c("blue", "red")
+stateColorVector <- c()
+for (i in data$Vote)  {
+  if (i == "Democratic") {
+    stateColorVector <- rbind(stateColorVector, "blue")
+  }
+  else {
+    stateColorVector <- rbind(stateColorVector, "red")
+  }
+}
+data_2D_df %>%
+  ggplot(mapping = aes(x = MDS1, y = MDS2, color = stateColorVector)) +
+  scale_colour_manual(values=colorVector) +
+  geom_text(label = rownames(data), size = 2) +
+  labs(x = "Dimension 1",
+       y = "Dimension 2",
+       title = "NMDS 2-D representation of Voting Dataset")
 ```
