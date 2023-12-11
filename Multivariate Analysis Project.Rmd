@@ -38,7 +38,6 @@ data_clus <- data %>%
 data_stats <- cluster.stats(data_dist, data_clus$vote_numeric, data_clus$cluster)
 data_vi <- data_stats$vi
 data_rand <- data_stats$corrected.rand
-table(data$State, data_eclust$cluster)
 ```
 
 ```{r}
